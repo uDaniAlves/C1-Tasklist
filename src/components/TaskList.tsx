@@ -16,14 +16,38 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    if(newTaskTitle)
+      setTasks(oldstate => [
+        ...oldstate,
+        {
+          id: Math.floor(Math.random() * 101),
+          title: newTaskTitle,
+          isComplete: false
+      }]
+      )
+      setNewTaskTitle('')
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+
+      // const tempTasks = tasks; 
+      // tempTasks.forEach((task) => task.id == id ? task.isComplete = !task.isComplete : "") // PORQUE NAO ATUALIZA LOGO O ESTADO???
+
+      const newTasks = tasks.map(task => task.id == id ? {
+        ...task, 
+        isComplete: !task.isComplete
+      } : 
+      task
+      )
+
+      setTasks(newTasks);
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    const remainingTasks = tasks.filter(task => task.id != id);
+    setTasks(remainingTasks);
   }
 
   return (
